@@ -68,6 +68,7 @@ function benchmarkSummary() {
 }
 
 const Wappalyzer = {
+  debug: false,
   technologies: [],
   categories: [],
   requires: [],
@@ -191,8 +192,13 @@ const Wappalyzer = {
       const matches = regex.exec(match);
 
       if (matches) {
+        // eslint-disable-next-line no-console
+        if (Wappalyzer.debug) {
+            console.log("matched version", { version, regex, match, matches });
+        }
+
         matches.forEach((match, index) => {
-          if (String(match).length > 10) {
+          if (String(match).length > 30) {
             return;
           }
 
