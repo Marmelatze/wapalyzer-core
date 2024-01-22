@@ -1,9 +1,7 @@
 {
-  "name": "wapalyzer-core",
-  "description": "Identify technologies on websites",
+  "name": "wapalyzer",
+  "description": "Identify technology on websites",
   "keywords": [
-    "wappalyzer",
-    "wappalyzer-core",
     "analyze",
     "identify",
     "detect",
@@ -12,29 +10,37 @@
     "cms",
     "framework",
     "library",
-    "software",
-    "wapalyzer"
+    "software"
   ],
   "homepage": "https://www.wappalyzer.com/",
-  "version": "6.11.0",
+  "version": "6.10.65",
   "author": "Wappalyzer",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tylerpuig/wapalyzer-core"
+    "url": "https://github.com/Lissy93/wapalyzer"
   },
   "funding": [
     {
-      "url": "https://github.com/sponsors/aliasio"
+      "url": "https://github.com/sponsors/lissy93"
     }
   ],
-  "main": "./index.cjs.js",
-  "module": "./index.mjs",
-  "exports": {
-    ".": {
-      "import": "./index.mjs",
-      "require": "./index.cjs.js",
-      "driver": "./driver.js"
-    }
+  "main": "driver.js",
+  "files": [
+    "cli.js",
+    "categories.json",
+    "driver.js",
+    "index.js",
+    "technologies/*",
+    "wappalyzer.js"
+  ],
+  "bin": {
+    "wappalyzer": "./cli.js"
+  },
+  "dependencies": {
+    "puppeteer": "^21.7.0"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }
