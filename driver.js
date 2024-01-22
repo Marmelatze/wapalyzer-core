@@ -386,6 +386,7 @@ class Driver {
             args: chromiumArgs,
             executablePath: CHROMIUM_BIN,
             timeout: 5000,
+            headless: 'new',
           })
         }
 
