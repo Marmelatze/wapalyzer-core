@@ -366,6 +366,7 @@ class Driver {
     }
 
     this.destroyed = false
+    Wappalyzer.debug = this.options.debug
   }
 
   async init() {

@@ -194,7 +194,7 @@ const Wappalyzer = {
       if (matches) {
         matches.forEach((match, index) => {
           if (Wappalyzer.debug) {
-            console.log("match = " + match)
+            console.log("log | wappalyzer | extract version from " + match)
           }
           if (String(match).length > 30) {
             return;
@@ -666,6 +666,9 @@ const Wappalyzer = {
           const matches = pattern.regex.exec(value)
 
           if (matches) {
+            if (Wappalyzer.debug) {
+              console.log(`log | wappalyzer | matched ${technology.name} (${type}: ${key} = "${value}")`)
+            }
             technologies.push({
               technology,
               pattern: {
