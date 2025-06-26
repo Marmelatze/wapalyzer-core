@@ -1158,6 +1158,7 @@ class Site {
             {
               technology: { name, implies, excludes },
               pattern: { regex, value, match, confidence, type, version },
+              lastUrl,
             }
           ) => {
             patterns[name] = patterns[name] || []
@@ -1171,6 +1172,7 @@ class Site {
               version,
               implies: implies.map(({ name }) => name),
               excludes: excludes.map(({ name }) => name),
+              lastUrl: lastUrl,
             })
 
             return patterns
@@ -1193,6 +1195,7 @@ class Site {
           cpe,
           categories,
           rootPath,
+          lastUrl,
         }) => ({
           slug,
           name,
@@ -1208,6 +1211,7 @@ class Site {
             name,
           })),
           rootPath,
+          lastUrl,
         })
       ),
       patterns,
@@ -1344,6 +1348,10 @@ class Site {
   }
 
   async onDetect(url, detections = []) {
+    detections = detections.map(detection => {
+      detection.lastUrl = url.href
+      return detection;
+    });
     this.detections = this.detections
       .concat(detections)
       .filter(
