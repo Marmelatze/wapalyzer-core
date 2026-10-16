@@ -2183,6 +2183,7 @@
     "icon": "TinyMCE.svg",
     "js": {
       "tinyMCE.majorVersion": "([\\d.]+)\\;version:\\1",
+      "tinyMCE.minorVersion": "([\\d.]+)\\;version2:\\1",
       "tinymce": ""
     },
     "scriptSrc": "/tiny_?mce(?:\\.min)?\\.js",

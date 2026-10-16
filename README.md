@@ -68,4 +68,6 @@ console.log("Analyzing website...");
 analyzeWebsite();
 ```
 
+Technology patterns can extract a version from a match with `\;version:\1`. If a version is split across separate signals, use `\;version2:\1` on the second pattern. Resolution joins the two extracted values with a dot when both are available; the primary version remains unchanged when the second part is absent. For example, TinyMCE's `tinyMCE.majorVersion` of `6` and `tinyMCE.minorVersion` of `8.3` resolve to `6.8.3`. A secondary part alone does not become the reported version.
+
 You can view the latest technology JSON files [here](https://github.com/enthec/webappanalyzer) or [here](https://github.com/Lissy93/wapalyzer).

@@ -1356,7 +1356,7 @@ class Site {
       .concat(detections)
       .filter(
         (
-          { technology: { name }, pattern: { regex }, version },
+          { technology: { name }, pattern: { regex }, version, version2 },
           index,
           detections
         ) =>
@@ -1365,9 +1365,11 @@ class Site {
               technology: { name: _name },
               pattern: { regex: _regex },
               version: _version,
+              version2: _version2,
             }) =>
               name === _name &&
               version === _version &&
+              version2 === _version2 &&
               (!regex || regex.toString() === _regex.toString())
           ) === index
       )

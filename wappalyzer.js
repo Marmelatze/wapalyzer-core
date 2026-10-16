@@ -104,6 +104,7 @@ const Wappalyzer = {
         ) === -1
       ) {
         let version = ''
+        let version2 = ''
         let confidence = 0
         let rootPath
 
@@ -117,6 +118,7 @@ const Wappalyzer = {
               technology: { name },
               pattern,
               version: _version = '',
+              version2: _version2 = '',
               rootPath: _rootPath,
             }) => {
               confidence = Math.min(100, confidence + pattern.confidence)
@@ -126,9 +128,18 @@ const Wappalyzer = {
                 (parseInt(_version, 10) || 0) < 10000 // Ignore long numeric strings like timestamps
                   ? _version
                   : version
+              version2 =
+                _version2.length > version2.length &&
+                _version2.length <= 15 &&
+                (parseInt(_version2, 10) || 0) < 10000
+                  ? _version2
+                  : version2
               rootPath = rootPath || _rootPath || undefined
             }
           )
+        if (version && version2 && `${version}.${version2}`.length <= 15) {
+          version = `${version}.${version2}`
+        }
 
         resolved.push({ technology, confidence, version, rootPath, lastUrl })
       }
@@ -185,10 +196,10 @@ const Wappalyzer = {
    * @param {Promise} resolved
    * @param match
    */
-  resolveVersion({ version, regex }, match) {
-    let resolved = version
+  resolveVersion({ version, regex }, match, template = version) {
+    let resolved = template
 
-    if (version) {
+    if (template) {
       const matches = regex.exec(match)
 
       if (matches) {
@@ -202,11 +213,11 @@ const Wappalyzer = {
 
           // Parse ternary operator
           const ternary = new RegExp(`\\\\${index}\\?([^:]+):(.*)$`).exec(
-            version
+            template
           )
 
           if (ternary && ternary.length === 3) {
-            resolved = version.replace(
+            resolved = template.replace(
               ternary[0],
               match ? ternary[1] : ternary[2]
             )
@@ -534,7 +545,7 @@ const Wappalyzer = {
         {}
       )
     } else {
-      const { value, regex, confidence, version } = pattern
+      const { value, regex, confidence, version, version2 } = pattern
         .toString()
         .split('\\;')
         .reduce((attrs, attr, i) => {
@@ -571,6 +582,7 @@ const Wappalyzer = {
         regex,
         confidence: parseInt(confidence || 100, 10),
         version: version || '',
+        version2: version2 || '',
       }
     }
   },
@@ -597,6 +609,9 @@ const Wappalyzer = {
             match: matches[0],
           },
           version: Wappalyzer.resolveVersion(pattern, value),
+          version2: pattern.version2
+            ? Wappalyzer.resolveVersion(pattern, value, pattern.version2)
+            : '',
         })
       }
 
@@ -631,6 +646,9 @@ const Wappalyzer = {
               match: matches[0],
             },
             version: Wappalyzer.resolveVersion(pattern, value),
+            version2: pattern.version2
+              ? Wappalyzer.resolveVersion(pattern, value, pattern.version2)
+              : '',
           })
         }
 
@@ -678,6 +696,9 @@ const Wappalyzer = {
                 match: matches[0],
               },
               version: Wappalyzer.resolveVersion(pattern, value),
+              version2: pattern.version2
+                ? Wappalyzer.resolveVersion(pattern, value, pattern.version2)
+                : '',
             })
           }
 
