@@ -671,7 +671,7 @@ class Site {
         ) {
           const scripts = await response.text()
 
-          await this.onDetect(response.url(), analyze({ scripts }))
+          await this.onDetect(new URL(response.url()), analyze({ scripts }))
         }
       } catch (error) {
         if (error.constructor.name !== 'ProtocolError') {
